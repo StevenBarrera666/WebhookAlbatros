@@ -1,0 +1,6 @@
+@WebhookAlbatroz_HostAddress = http://localhost:5080
+
+GET {{WebhookAlbatroz_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

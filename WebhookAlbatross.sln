@@ -1,0 +1,17 @@
+namespace WebhookAlbatroz.DTOs
+{
+    public class WebhookDataDTO
+    {
+        public string? NitEmisor { get; set; }
+        public string? TrackId { get; set; }
+        public int? TipoDocumento { get; set; }
+        public string? NumeroDocumento { get; set; }
+        public string? Cufe { get; set; }
+        public string? UrlUbl { get; set; }
+        public string? UrlPDF { get; set; }
+        public string? UrlRespuestaDian { get; set; }
+        public int? CodigoMotivo { get; set; }
+        public string? Motivo { get; set; }
+        public string? Glosario { get; set; }
+    }
+}
