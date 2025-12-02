@@ -73,8 +73,8 @@ namespace WebhookAlbatroz.Controllers
 
 
 
-        [HttpPut("suscripcion/track/{trackId}")]
-        public async Task<IActionResult> ActualizarSuscripcionPorTrackId(string trackId, [FromBody] WebhookDataDTO datos)
+        [HttpPut("evento/track/{trackId}")]
+        public async Task<IActionResult> ActualizarEventoPorTrackId(string trackId, [FromBody] WebhookDataDTO datos)
         {
             if (!ModelState.IsValid)
             {
@@ -94,13 +94,13 @@ namespace WebhookAlbatroz.Controllers
                 if (string.IsNullOrEmpty(datos.TrackId))
                     datos.TrackId = trackId;
 
-                var actualizado = await _webhookService.ActualizarSuscripcionPorTrackId(datos);
+                var actualizado = await _webhookService.ActualizarEventoPorTrackId(datos);
 
                 if (actualizado)
                 {
                     return Ok(new
                     {
-                        mensaje = "Suscripción actualizada exitosamente",
+                        mensaje = "EventoRegistro actualizado exitosamente",
                         trackId = trackId,
                         timestamp = DateTime.UtcNow
                     });
@@ -109,14 +109,14 @@ namespace WebhookAlbatroz.Controllers
                 {
                     return NotFound(new
                     {
-                        mensaje = "No se encontró suscripción para el TrackId proporcionado",
+                        mensaje = "No se encontró EventoRegistro para el TrackId proporcionado",
                         trackId = trackId
                     });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error actualizando suscripción para TrackId: {TrackId}", trackId);
+                _logger.LogError(ex, "Error actualizando EventoRegistro para TrackId: {TrackId}", trackId);
                 return StatusCode(500, new
                 {
                     error = "Error interno del servidor",
