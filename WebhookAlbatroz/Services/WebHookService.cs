@@ -361,7 +361,7 @@ namespace WebhookAlbatroz.Services
                 _logger.LogInformation("Actualizando EventoRegistro ID: {Id}, TrackId: {TrackId}",
                     eventoRegistro.Id, eventoRegistro.TrackId);
 
-                // ✅ Actualizar propiedades correctas de EventoRegistro
+                //  Actualizar propiedades correctas de EventoRegistro
                 eventoRegistro.FechaHora = DateTime.UtcNow;
                 eventoRegistro.NitEmisor = datos.NitEmisor ?? string.Empty;
                 eventoRegistro.TrackId = datos.TrackId ?? string.Empty;
@@ -403,7 +403,6 @@ namespace WebhookAlbatroz.Services
                     return false;
                 }
 
-                // ✅ CORRECTO: Buscar en EventosRegistrados
                 var eventoRegistro = await _context.EventosRegistrados
                     .FirstOrDefaultAsync(s => s.TrackId == datos.TrackId);
 

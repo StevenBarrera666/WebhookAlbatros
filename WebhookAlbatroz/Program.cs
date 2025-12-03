@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen();
 // Configuración base de datos
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+    options.UseSqlServer(connectionString)
            .EnableSensitiveDataLogging(builder.Environment.IsDevelopment())
            .EnableDetailedErrors(builder.Environment.IsDevelopment())
 );
@@ -67,12 +67,12 @@ try
     await context.Database.CanConnectAsync();
     
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-    logger.LogInformation("✅ Conexión a base de datos exitosa");
+    logger.LogInformation(" Conexión a base de datos exitosa");
 }
 catch (Exception ex)
 {
     var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "❌ Error conectando a la base de datos");
+    logger.LogError(ex, " Error conectando a la base de datos");
 }
 
 app.Run();
