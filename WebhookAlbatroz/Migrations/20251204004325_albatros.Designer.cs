@@ -12,8 +12,8 @@ using WebhookAlbatroz.Context;
 namespace WebhookAlbatroz.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251203172723_AbatoSQ")]
-    partial class AbatoSQ
+    [Migration("20251204004325_albatros")]
+    partial class albatros
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,6 +175,69 @@ namespace WebhookAlbatroz.Migrations
                         .HasDatabaseName("IX_EventoRegistro_TrackId");
 
                     b.ToTable("EventosRegistrados", (string)null);
+                });
+
+            modelBuilder.Entity("WebhookAlbatroz.Entity.SaleInfoRQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("TechnologyField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("channelField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("dateBookField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventoField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("includeFlightsField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("includeHotelsField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("includeInsuranceField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("includePackageField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("locField")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("");
+
+                    b.Property<string>("payload")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("portalField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("stringincludeCarsField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SaleInfoRQ", (string)null);
                 });
 
             modelBuilder.Entity("WebhookAlbatroz.Entity.WebhookEventoSuscrito", b =>

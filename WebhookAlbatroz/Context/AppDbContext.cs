@@ -7,6 +7,7 @@ namespace WebhookAlbatroz.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        public DbSet<SaleInfoRQ> SaleInfoRQs { get; set; }  
         public DbSet<WebhookSuscripcion> WebhookSuscripciones { get; set; }
         public DbSet<WebhookEventoSuscrito> WebhookEventosSuscritos { get; set; }
         public DbSet<EventoRegistro> EventosRegistrados { get; set; }
@@ -33,22 +34,26 @@ namespace WebhookAlbatroz.Context
                 .HasForeignKey(e => e.WebhookSuscripcionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configurar valores por defecto - ✅ CORREGIDO para SQL Server
+            // Configurar valores por defecto - para SQL Server
             modelBuilder.Entity<WebhookSuscripcion>()
                 .Property(s => s.Activo)
                 .HasDefaultValue(true);
 
             modelBuilder.Entity<WebhookSuscripcion>()
                 .Property(s => s.FechaCreacion)
-                .HasDefaultValueSql("GETDATE()"); // ✅ SQL Server
+                .HasDefaultValueSql("GETDATE()"); 
 
             modelBuilder.Entity<DocumentoIntegracion>()
                 .Property(d => d.FechaDescarga)
-                .HasDefaultValueSql("GETDATE()"); // ✅ SQL Server
+                .HasDefaultValueSql("GETDATE()"); 
 
             modelBuilder.Entity<EventoRegistro>()
                 .Property(e => e.FechaHora)
-                .HasDefaultValueSql("GETDATE()"); // ✅ SQL Server
+                .HasDefaultValueSql("GETDATE()"); 
+
+            modelBuilder.Entity<SaleInfoRQ>()
+                .Property(s => s.locField)
+                .HasDefaultValue(string.Empty);
 
             // Configurar índices para mejorar rendimiento
             modelBuilder.Entity<EventoRegistro>()
@@ -86,16 +91,19 @@ namespace WebhookAlbatroz.Context
                 .Property(s => s.ReintentosMax)
                 .HasDefaultValue(3);
 
-            // Configurar precisión para campos de texto largos - ✅ CORREGIDO para SQL Server
+            // Configurar precisión para campos de texto largos - 
             modelBuilder.Entity<EventoRegistro>()
                 .Property(e => e.Glosario)
-                .HasColumnType("NVARCHAR(MAX)"); // ✅ SQL Server
+                .HasColumnType("NVARCHAR(MAX)"); // 
 
             modelBuilder.Entity<DocumentoIntegracion>()
                 .Property(d => d.ContenidoXML)
-                .HasColumnType("NVARCHAR(MAX)"); // ✅ SQL Server
+                .HasColumnType("NVARCHAR(MAX)"); // 
 
             // Configurar nombres de tablas explícitos
+            modelBuilder.Entity<SaleInfoRQ>()
+                .ToTable("SaleInfoRQ");
+
             modelBuilder.Entity<WebhookSuscripcion>()
                 .ToTable("WebhookSuscripciones");
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebhookAlbatroz.Migrations
 {
     /// <inheritdoc />
-    public partial class AbatoSQ : Migration
+    public partial class albatros : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,6 +58,30 @@ namespace WebhookAlbatroz.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EventosRegistrados", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaleInfoRQ",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    locField = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: ""),
+                    dateBookField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    eventoField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    channelField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    portalField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TechnologyField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    includeFlightsField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    stringincludeCarsField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    includeHotelsField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    includeInsuranceField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    includePackageField = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    payload = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleInfoRQ", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -141,6 +165,9 @@ namespace WebhookAlbatroz.Migrations
 
             migrationBuilder.DropTable(
                 name: "EventosRegistrados");
+
+            migrationBuilder.DropTable(
+                name: "SaleInfoRQ");
 
             migrationBuilder.DropTable(
                 name: "WebhookEventosSuscritos");

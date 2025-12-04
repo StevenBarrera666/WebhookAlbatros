@@ -34,6 +34,7 @@ builder.Services.AddHttpClient<WebhookService>(client =>
     client.Timeout = TimeSpan.FromSeconds(30);
 });
 
+builder.Services.AddScoped<SaleInfoRQService>();
 builder.Services.AddScoped<WebhookService>();
 
 // Configuración de logging mejorada

@@ -10,11 +10,13 @@ namespace WebhookAlbatroz.Controllers
     [Route("api/[controller]")]
     public class WebhookController : ControllerBase
     {
+        private readonly SaleInfoRQService _saleInfoRQ;
         private readonly WebhookService _webhookService;
         private readonly ILogger<WebhookController> _logger;
 
-        public WebhookController(WebhookService webhookService, ILogger<WebhookController> logger)
+        public WebhookController(WebhookService webhookService, SaleInfoRQService saleInfoRQ, ILogger<WebhookController> logger)
         {
+            _saleInfoRQ = saleInfoRQ;
             _webhookService = webhookService;
             _logger = logger;
         }
@@ -30,7 +32,7 @@ namespace WebhookAlbatroz.Controllers
                     mensaje = "Datos inválidos",
                     errores = ModelState.ToDictionary(
                         kvp => kvp.Key,
-                        kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).ToArray()
+                        kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).ToArray() 
                     )
                 });
             }
@@ -71,7 +73,51 @@ namespace WebhookAlbatroz.Controllers
             }
         }
 
+        [HttpPost("notificarDocumento")]
+        public async Task<IActionResult> NotificarDocumento([FromBody] SaleInfoRQDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Modelo inválido recibido: ", ModelState);
+                return BadRequest(new
+                {
+                    mensaje = "Datos inválidos",
+                    errores = ModelState.ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).ToArray()
+                    )
+                });
+            }
 
+            try
+            {
+                await _saleInfoRQ.RqService(request);
+
+                return Ok(new
+                {
+                    mensaje = "Evento notificado exitosamente",
+                    timestamp = DateTime.UtcNow,
+                    datos = new
+                    {
+                        locField = request.locField
+              
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error notificando documento. Inner Exception: {InnerException}",
+                    ex.InnerException?.Message ?? "No inner exception");
+
+                return StatusCode(500, new
+                {
+                    error = "Error interno del servidor",
+                    detalle = ex.Message,
+                    innerException = ex.InnerException?.Message,
+                    timestamp = DateTime.UtcNow
+                });
+            }
+        }
 
         [HttpPut("evento/track/{trackId}")]
         public async Task<IActionResult> ActualizarEventoPorTrackId(string trackId, [FromBody] WebhookDataDTO datos)
@@ -125,6 +171,8 @@ namespace WebhookAlbatroz.Controllers
                 });
             }
         }
+
+
 
         [HttpGet("eventos")]
         public IActionResult GetEventos()
